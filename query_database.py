@@ -1,12 +1,13 @@
 import sqlite3
 
-def get_predictions(user_id=1):
+def get_recent_predictions():
     conn = sqlite3.connect('database.sqlite3')
     cursor = conn.cursor()
-    cursor.execute("SELECT image_path, predicted_emotion, timestamp FROM predictions WHERE user_id = ?", (user_id,))
-    results = cursor.fetchall()
+    cursor.execute("SELECT emotion, timestamp FROM predictions ORDER BY timestamp DESC LIMIT 10")
+    predictions = cursor.fetchall()
     conn.close()
-    return results
+    import pandas as pd
+    return pd.DataFrame(predictions, columns=['emotion', 'timestamp'])
 
 # Example usage (for testing)
 if __name__ == "__main__":

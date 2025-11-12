@@ -3,6 +3,7 @@ torch
 torchvision
 pillow
 numpy
+seaborn
 scikit-learn
 matplotlib
 gunicorn

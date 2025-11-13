@@ -10,6 +10,9 @@
     <div class="container">
         <h1>Emotion Detection Result</h1>
         <p>The detected emotion is: <strong>{{ emotion }}</strong></p>
+        {% if image_path %}
+        <img src="{{ url_for('static', filename=image_path.split('/')[-1]) }}" alt="Uploaded Image" width="300">
+        {% endif %}
         <a href="/">Back to Upload</a>
     </div>
 </body>

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template
 import torch
 import torch.nn as nn
 from model import EmotionCNN
@@ -38,7 +38,7 @@ def index():
             if 'file' not in request.files or 'name' not in request.form:
                 return render_template('index.html', message='No file or name provided')
             file = request.files['file']
-            name = request.form['name']
+            name = request.form['name'].strip()
             if not file.filename or not name:
                 return render_template('index.html', message='No selected file or name')
             if file:
@@ -51,15 +51,19 @@ def index():
                     output = model(img_tensor)
                     _, predicted = torch.max(output, 1)
                     emotion = classes[predicted.item()]
-                save_prediction(name, emotion, filename)
-                return render_template('result.html', emotion=emotion, image_path=file.filename)
+                save_prediction(name, emotion, filename)  # Now safe with error handling
+                return render_template('result.html', emotion=emotion, image_path=filename, name=name)
         except Exception as e:
             return render_template('index.html', message=f'Error processing image: {str(e)}')
     return render_template('index.html')
 
 @app.route('/history')
 def history():
-    predictions = get_recent_predictions()
+    try:
+        predictions = get_recent_predictions()  # Now safe, returns empty if error
+    except Exception as e:
+        predictions = pd.DataFrame()  # Fallback
+        print(f"Error loading history: {e}")
     return render_template('history.html', predictions=predictions)
 
 if __name__ == "__main__":

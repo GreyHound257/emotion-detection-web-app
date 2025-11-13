@@ -9,11 +9,12 @@
 <body>
     <div class="container">
         <h1>Emotion Detection Result</h1>
-        <p>Detected emotion for <strong>{{ name if name else 'you' }}</strong> is: <strong>{{ emotion }}</strong></p>
+        <p>Detected emotion for <strong>{{ name }}</strong> is: <strong>{{ emotion }}</strong></p>
         {% if image_path %}
-        <img src="{{ url_for('static', filename='uploads/' + image_path) }}" alt="Uploaded Image" width="300">
+        <img src="{{ url_for('static', filename='uploads/' + image_path.split('/')[-1]) }}" alt="Uploaded Image" width="300">
         {% endif %}
         <a href="/">Back to Upload</a>
+        <a href="/history">View History</a>
     </div>
 </body>
 </html>

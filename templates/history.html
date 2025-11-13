@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction History</h1>
+        {% if predictions.empty %}
+            <p>No predictions yet.</p>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Emotion</th>
+                    <th>Image</th>
+                    <th>Timestamp</th>
+                </tr>
+                {% for _, row in predictions.iterrows() %}
+                <tr>
+                    <td>{{ row['name'] }}</td>
+                    <td>{{ row['emotion'] }}</td>
+                    <td><img src="{{ url_for('static', filename='uploads/' + row['image_path'].split('/')[-1]) }}" alt="Past Image" width="100"></td>
+                    <td>{{ row['timestamp'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        <a href="/">Back to Upload</a>
+    </div>
+</body>
+</html>

@@ -13,9 +13,11 @@
             <p class="message">{{ message }}</p>
         {% endif %}
         <form method="post" enctype="multipart/form-data">
-            <input type="file" name="file" accept="image/*">
+            <input type="text" name="name" placeholder="Enter your name" required>
+            <input type="file" name="file" accept="image/*" required>
             <input type="submit" value="Detect Emotion">
         </form>
+        <a href="/history">View History</a>
     </div>
 </body>
 </html>

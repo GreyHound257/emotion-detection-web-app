@@ -1,4 +1,3 @@
-# model.py
 import torch
 import torch.nn as nn
 
@@ -8,7 +7,7 @@ class EmotionCNN(nn.Module):
         self.conv1 = nn.Conv2d(1, 32, 3)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(32, 64, 3)
-        self.fc1 = nn.Linear(64 * 12 * 12, 128)  # 9216 input size
+        self.fc1 = nn.Linear(64 * 12 * 12, 128)  # 9216 input size to match saved weights
         self.fc2 = nn.Linear(128, 7)
         self.relu = nn.ReLU()
 

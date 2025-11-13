@@ -1,8 +1,8 @@
-flask
 torch
 torchvision
-pillow
 numpy
 scikit-learn
 matplotlib
+flask
 gunicorn
+pillow

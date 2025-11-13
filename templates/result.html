@@ -2,21 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Predicted Emotion: {{ emotion }}</h1>
-    <img src="{{ image_path }}" alt="Uploaded Image" width="300">
-    <a href="/">Back</a>
-    <a href="/predictions">View Past Predictions</a>
-    {% if predictions %}
-    <h2>Past Predictions</h2>
-    <ul>
-        {% for pred in predictions %}
-        <li>Image: {{ pred[0] }}, Emotion: {{ pred[1] }}, Time: {{ pred[2] }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="container">
+        <h1>Emotion Detection Result</h1>
+        <p>The detected emotion is: <strong>{{ emotion }}</strong></p>
+        <a href="/">Back to Upload</a>
+    </div>
 </body>
 </html>

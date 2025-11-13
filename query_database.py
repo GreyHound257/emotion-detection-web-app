@@ -9,6 +9,9 @@ def get_recent_predictions():
     import pandas as pd
     return pd.DataFrame(predictions, columns=['emotion', 'timestamp'])
 
-# Example usage (for testing)
-if __name__ == "__main__":
-    print(get_predictions())
+def save_prediction(emotion):
+    conn = sqlite3.connect('database.sqlite3')
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO predictions (emotion) VALUES (?)", (emotion,))
+    conn.commit()
+    conn.close()

@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, render_template
 import torch
 import torch.nn as nn
@@ -17,22 +16,20 @@ model.eval()
 # Define transformation for input image
 transform = transforms.Compose([
     transforms.Grayscale(num_output_channels=1),
-    transforms.Resize((54, 54)),  # Match original training size
+    transforms.Resize((54, 54)),  # Adjusted to match 9216 input size (trial-based)
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
 
-from query_database import get_recent_predictions
-
+# Routes
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    recent_predictions = get_recent_predictions()  # Query database
     if request.method == 'POST':
         if 'file' not in request.files:
-            return render_template('index.html', message='No file part', recent_predictions=recent_predictions)
+            return render_template('index.html', message='No file part')
         file = request.files['file']
         if file.filename == '':
-            return render_template('index.html', message='No selected file', recent_predictions=recent_predictions)
+            return render_template('index.html', message='No selected file')
         if file:
             img = Image.open(file.stream).convert('L')
             img_tensor = transform(img).unsqueeze(0)
@@ -40,10 +37,8 @@ def index():
                 output = model(img_tensor)
                 _, predicted = torch.max(output, 1)
                 emotion = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'][predicted.item()]
-            # Save to database (example)
-            save_prediction(emotion)  # Implement in query_database.py
-            recent_predictions = get_recent_predictions()  # Refresh
-            return render_template('result.html', emotion=emotion, recent_predictions=recent_predictions)
-    return render_template('index.html', recent_predictions=recent_predictions)
+            return render_template('result.html', emotion=emotion)
+    return render_template('index.html')
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
